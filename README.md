@@ -78,6 +78,9 @@ datasize 410 --mode z --save ‘result directory’ --modelNum 200 --batchSize 1
 3. Increasing batch size (‘batchSize’) during testing increases speed of forward propagation.
 
 ## Instruction on Using PSF toolbox
+**The code has been tested in following system and packages:**\
+Windows7, Windows10, MatlabR2015a, DIPimage(http://www.diplib.org/)
+
 1. Change current folder in Matlab to PSF toolbox.
 2. Run each example code in PSF toolbox/examples/.
 **Note: **for PR_example.m, it requires user to select the center of the PSF in the pop up window.
