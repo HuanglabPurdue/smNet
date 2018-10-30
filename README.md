@@ -1,51 +1,51 @@
 # smNet (Single Molecule Deep Neural Network)
-This software is distributed as accompanying software for manuscript:*'Analysing complex single molecule emission patterns with deep learning'* by Peiyi Zhang, Sheng, Liu, Abhishek Chaurasia, Donghan Ma, Michael J. Mlodzianoski, Eugenio Culurciello and Fang Huang.
+This software is distributed as accompanying software for manuscript:**'Analysing complex single molecule emission patterns with deep learning'**by Peiyi Zhang, Sheng, Liu, Abhishek Chaurasia, Donghan Ma, Michael J. Mlodzianoski, Eugenio Culurciello and Fang Huang.
 
 ## Files included in this package
 ### Content of smNet software
 **SampleData:**\
-*train/data.mat: A small training dataset containing simulated PSF.\
-*train/label.mat: Labels of the training dataset (true coordinates)\
-*train/CRLB.mat: Calculated CRLB used in training\
-*test/testdata.mat: A small test dataset\
-*test/testlabel.mat: Underlying true positions to compare with smNet results\
-*test/CRLB.mat: CRLB to evaluate precision performance\
+* train/data.mat: A small training dataset containing simulated PSF.\
+* train/label.mat: Labels of the training dataset (true coordinates)\
+* train/CRLB.mat: Calculated CRLB used in training\
+* test/testdata.mat: A small test dataset\
+* test/testlabel.mat: Underlying true positions to compare with smNet results\
+* test/CRLB.mat: CRLB to evaluate precision performance\
 
 **smNet Source Code:** coded in Lua (http://www.lua.org/)\
-*main.lua: Main script for training smNet\
-*opts.lua: Definitions of user adjustable variables\
-*test/test.lua: Script for testing smNet\
-*load/loaddata.lua: Script for loading training and validation data\
-*load/loadtestdata.lua: Script for loading test data\
-*load/loadweight.lua: Script for loading CRLB for training\
+* main.lua: Main script for training smNet\
+* opts.lua: Definitions of user adjustable variables\
+* test/test.lua: Script for testing smNet\
+* load/loaddata.lua: Script for loading training and validation data\
+* load/loadtestdata.lua: Script for loading test data\
+* load/loadweight.lua: Script for loading CRLB for training\
 
 **Note:**: smNet can be trained with >1M images. Additional training and validation datasets are available upon request. smNet Source Code in python will be provided later
 
 ### Content of PSF toolbox
-**Matlab classes:**\
-*OptimPR_Ast -- for phase retrieval\
-*PRPSF -- for phase retrieval\
-*PSF_zernike -- simulation of PSFs with optical aberration\
-*PSF_interp -- simulation of PSFs from interpolation\
-*PSF_DH -- simulation of double-helix PSFs\
-*DipoleField -- simulation of dipole PSFs\
-*CalCRLB -- calculation of CRLB for non-dipole PSF model\
-*CalCRLB_dipole -- calculation of CRLB for dipole PSF model\
-*Zernike_Polynomials -- generation of Zernike polynomials\
-*OTFrescale -- OTF rescale the simulated PSFs\
+** Matlab classes:**\
+* OptimPR_Ast -- for phase retrieval\
+* PRPSF -- for phase retrieval\
+* PSF_zernike -- simulation of PSFs with optical aberration\
+* PSF_interp -- simulation of PSFs from interpolation\
+* PSF_DH -- simulation of double-helix PSFs\
+* DipoleField -- simulation of dipole PSFs\
+* CalCRLB -- calculation of CRLB for non-dipole PSF model\
+* CalCRLB_dipole -- calculation of CRLB for dipole PSF model\
+* Zernike_Polynomials -- generation of Zernike polynomials\
+* OTFrescale -- OTF rescale the simulated PSFs\
 
 **Example codes:**\
-*PR_example.m\
-*PSF_astigmatism_example.m\
-*PSF_complex_simulate_example.m\
-*PSF_complex_interp_example.m\
-*PSF_doublehelix_example.m\
-*PSF_dipole_example.m\
+* PR_example.m\
+* PSF_astigmatism_example.m\
+* PSF_complex_simulate_example.m\
+* PSF_complex_interp_example.m\
+* PSF_doublehelix_example.m\
+* PSF_dipole_example.m\
 
 **Test data:**\
-*complexPSF_recorded.mat\
-*astigmatimPSF_PR_result_optimAst.mat\
-*complexPSF_samplepsf.mat\
+* complexPSF_recorded.mat\
+* astigmatimPSF_PR_result_optimAst.mat\
+* complexPSF_samplepsf.mat\
 
 ## Instruction on Using smNet software
 **The code has been developed and tested on the following system and packages:**\
