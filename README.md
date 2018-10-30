@@ -6,12 +6,12 @@ Ubuntu16.04, Torch7, CUDA8.0, cuDNN-8.0, NCCL1, MatlabR2015a, mattorch1.0-0
 ### Packages Installation Instruction
 #### 1. Install Torch
 Run the following commands in a terminal:
-'''
+```
 git clone https://github.com/torch/distro.git ~/torch --recursive
 cd ~/torch; bash install-deps;
 ./install.sh
 source ~/.bashrc
 luarocks install image
 luarocks list
-'''
+```
 (reference to http://torch.ch/docs/getting-started.html#)
