@@ -1,5 +1,5 @@
 # smNet (Single Molecule Deep Neural Network)
-This software is distributed as accompanying software for manuscript:**'Analysing complex single molecule emission patterns with deep learning'**by Peiyi Zhang, Sheng, Liu, Abhishek Chaurasia, Donghan Ma, Michael J. Mlodzianoski, Eugenio Culurciello and Fang Huang.
+This software is distributed as accompanying software for manuscript: **'Analysing complex single molecule emission patterns with deep learning'** by Peiyi Zhang, Sheng, Liu, Abhishek Chaurasia, Donghan Ma, Michael J. Mlodzianoski, Eugenio Culurciello and Fang Huang.
 
 ## Files included in this package
 ### Content of smNet software
@@ -22,7 +22,7 @@ This software is distributed as accompanying software for manuscript:**'Analysin
 **Note:**: smNet can be trained with >1M images. Additional training and validation datasets are available upon request. smNet Source Code in python will be provided later
 
 ### Content of PSF toolbox
-** Matlab classes:**
+**Matlab classes:**
 * OptimPR_Ast -- for phase retrieval
 * PRPSF -- for phase retrieval
 * PSF_zernike -- simulation of PSFs with optical aberration
