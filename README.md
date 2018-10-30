@@ -70,7 +70,7 @@ Run the following commands line by line in a terminal:
 ```
 cd test
 th test.lua --testdatapath 'SampleData directory/SampleData/test/' --imHeight 32 --imWidth 32 --
-datasize 410 --mode z --save ‘result directory’ --modelNum 200 --batchSize 1000
+numSubregion 410 --mode z --save ‘result directory’ --modelNum 200 --batchSize 200
 ```
 **Note:**
 1. Result directory is the same for both training and testing
