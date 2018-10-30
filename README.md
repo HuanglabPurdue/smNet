@@ -3,54 +3,54 @@ This software is distributed as accompanying software for manuscript:*'Analysing
 
 ## Files included in this package
 ### Content of smNet software
-SampleData:
-	train/data.mat: A small training dataset containing simulated PSF.
-	train/label.mat: Labels of the training dataset (true coordinates)
-	train/CRLB.mat: Calculated CRLB used in training
-	test/testdata.mat: A small test dataset
-	test/testlabel.mat: Underlying true positions to compare with smNet results
-	test/CRLB.mat: CRLB to evaluate precision performance
+**SampleData:**\
+*train/data.mat: A small training dataset containing simulated PSF.\
+*train/label.mat: Labels of the training dataset (true coordinates)\
+*train/CRLB.mat: Calculated CRLB used in training\
+*test/testdata.mat: A small test dataset\
+*test/testlabel.mat: Underlying true positions to compare with smNet results\
+*test/CRLB.mat: CRLB to evaluate precision performance\
 
-smNet Source Code: coded in Lua (http://www.lua.org/)
-	main.lua: Main script for training smNet
-	opts.lua: Definitions of user adjustable variables
-	test/test.lua: Script for testing smNet
-	load/loaddata.lua: Script for loading training and validation data
-	load/loadtestdata.lua: Script for loading test data
-	load/loadweight.lua: Script for loading CRLB for training
+**smNet Source Code:** coded in Lua (http://www.lua.org/)\
+*main.lua: Main script for training smNet\
+*opts.lua: Definitions of user adjustable variables\
+*test/test.lua: Script for testing smNet\
+*load/loaddata.lua: Script for loading training and validation data\
+*load/loadtestdata.lua: Script for loading test data\
+*load/loadweight.lua: Script for loading CRLB for training\
 
 **Note:**: smNet can be trained with >1M images. Additional training and validation datasets are available upon request. smNet Source Code in python will be provided later
 
 ### Content of PSF toolbox
-Matlab classes:
-	OptimPR_Ast -- for phase retrieval
-	PRPSF -- for phase retrieval
-	PSF_zernike -- simulation of PSFs with optical aberration
-	PSF_interp -- simulation of PSFs from interpolation
-	PSF_DH -- simulation of double-helix PSFs
-	DipoleField -- simulation of dipole PSFs
-	CalCRLB -- calculation of CRLB for non-dipole PSF model
-	CalCRLB_dipole -- calculation of CRLB for dipole PSF model
-	Zernike_Polynomials -- generation of Zernike polynomials
-	OTFrescale -- OTF rescale the simulated PSFs
+**Matlab classes:**\
+*OptimPR_Ast -- for phase retrieval\
+*PRPSF -- for phase retrieval\
+*PSF_zernike -- simulation of PSFs with optical aberration\
+*PSF_interp -- simulation of PSFs from interpolation\
+*PSF_DH -- simulation of double-helix PSFs\
+*DipoleField -- simulation of dipole PSFs\
+*CalCRLB -- calculation of CRLB for non-dipole PSF model\
+*CalCRLB_dipole -- calculation of CRLB for dipole PSF model\
+*Zernike_Polynomials -- generation of Zernike polynomials\
+*OTFrescale -- OTF rescale the simulated PSFs\
 
-Example codes:
-	PR_example.m
-	PSF_astigmatism_example.m
-	PSF_complex_simulate_example.m
-	PSF_complex_interp_example.m
-	PSF_doublehelix_example.m
-	PSF_dipole_example.m
+**Example codes:**\
+*PR_example.m\
+*PSF_astigmatism_example.m\
+*PSF_complex_simulate_example.m\
+*PSF_complex_interp_example.m\
+*PSF_doublehelix_example.m\
+*PSF_dipole_example.m\
 
-Test data:
-	complexPSF_recorded.mat
-	astigmatimPSF_PR_result_optimAst.mat
-	complexPSF_samplepsf.mat
+**Test data:**\
+*complexPSF_recorded.mat\
+*astigmatimPSF_PR_result_optimAst.mat\
+*complexPSF_samplepsf.mat\
 
 ## Instruction on Using smNet software
 **The code has been developed and tested on the following system and packages:**\
 Ubuntu16.04, Torch7, CUDA8.0, cuDNN-8.0, NCCL1, MatlabR2015a, mattorch1.0-0\
-Detailed package installation instructions are provided in the following text
+(Detailed package installation instructions are provided in the following text)
 
 ### 1. Training
 Run the following command in a terminal:
@@ -164,7 +164,7 @@ luarocks make
 Run the following commands line by line in the terminal:
 ```
 sudo apt-get install gnuplot
-sudo apt-get install gnuplot-q
+sudo apt-get install gnuplot-qt
 ```
 ## Acknowledgement:
 We thank K. A. Lidke and M. J. Wester from University of New Mexico for initial contribution to the
