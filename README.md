@@ -82,7 +82,7 @@ datasize 410 --mode z --save ‘result directory’ --modelNum 200 --batchSize 1
 Windows7, Windows10, MatlabR2015a, DIPimage(http://www.diplib.org/)
 
 1. Change current folder in Matlab to PSF toolbox.
-2. Run each example code in PSF toolbox/examples/.
+2. Run each example code in PSF toolbox/examples/.\
 **Note: **for PR_example.m, it requires user to select the center of the PSF in the pop up window.
 3. Type ‘help classname’ in Matlab command window for detailed help on each Matlab class.
 
