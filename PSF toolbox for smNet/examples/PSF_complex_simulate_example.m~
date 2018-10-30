@@ -1,0 +1,79 @@
+clearvars
+me = userpath;
+basepath = [me,'/PSF toolbox DNN'];
+addpath(basepath);
+
+%% setup parameters
+R = 128;
+phaseZ = zeros(1,25);
+phaseZ([5 16 19]) = [3 4 3];%Zernike mode
+magZ = zeros(1,25);
+magZ(1) = 1;
+PRstruct.NA = 1.4;
+PRstruct.Lambda = 0.69;
+PRstruct.RefractiveIndex = 1.52;
+PRstruct.Pupil.phase = zeros(R,R);
+PRstruct.Pupil.mag = zeros(R,R);
+PRstruct.Zernike_phase = phaseZ;
+PRstruct.Zernike_mag = magZ;
+PRstruct.SigmaX = 2;
+PRstruct.SigmaY = 2;
+%% generate PSF
+psfobj = PSF_zernike(PRstruct);
+Num = 21;
+zpos = linspace(-2,2,Num)';
+psfobj.Xpos = zeros(Num,1);% pixel
+psfobj.Ypos = zeros(Num,1);% pixel
+psfobj.Zpos = zpos;% micron
+psfobj.Boxsize = 32;
+psfobj.Pixelsize = 0.13; % micron
+psfobj.PSFsize = R;
+psfobj.nMed = 1.33;
+
+psfobj.precomputeParam();
+psfobj.genPupil();
+psfobj.genPSF();
+psfobj.scalePSF('normal');
+psf = psfobj.ScaledPSFs;
+%% show PSF
+xN = round(sqrt(Num));
+yN = ceil(Num/xN);
+h = figure;
+h.Position = [200,300,100*xN,105*yN];
+for n=1:Num
+    if (n<=xN*yN)
+        ha=axes;
+        ii=mod(n,xN);
+        jj=floor(n/xN)+1;
+        if ii==0
+            ii=xN;
+            jj=n/xN;
+        end
+        psfi = psf(:,:,n);
+        ha.Position=[(ii-1)/xN,(yN-jj)/yN,1/xN,1/yN];
+        imagesc(psfi,[min(psfi(:)),max(psfi(:))]);axis off;axis equal;
+        text(2,2, ['z=',num2str(zpos(n),3),'\mum'],'color',[1,1,1],'fontsize',12);
+    end
+end
+colormap(jet);
+h.InvertHardcopy = 'off';
+
+%%
+crobj=CalCRLB(PRstruct,'zernike');
+crobj.Pixelsize=0.13;%micron
+crobj.PSFobj.PSFsize = 128;
+crobj.PSFobj.nMed = 1.33;
+crobj.Xpos=psfobj.Xpos;
+crobj.Ypos=psfobj.Ypos;
+crobj.Zpos=psfobj.Zpos;
+crobj.Photon=I;
+crobj.Bg=bg;
+crobj.Boxsize=32;
+crobj.Deltax=0.1;%pixel
+crobj.Deltaz=0.01;%micron
+ 
+crobj.prepInputparam();
+crobj.calcrlb();
+crobj.genfigs();
+
+

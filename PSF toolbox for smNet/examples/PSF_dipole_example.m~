@@ -1,0 +1,116 @@
+clearvars
+me = userpath;
+basepath = [me,'/PSF toolbox DNN'];
+addpath(basepath);
+
+%% generate PSF
+psfobj = DipoleField(); 
+
+psfobj.Boxsize = 32; 
+psfobj.NV = 64;
+psfobj.NV1 = 10;
+psfobj.Pixelsize = 0.05;% um
+psfobj.NA = 1.4;
+psfobj.nImm = 1.52;
+psfobj.nMed = 1.35;
+psfobj.nCov = 1.52;
+psfobj.Lambda = 0.69;% um
+psfobj.DipoleP = 1;% amplitude
+
+[zpos,alpha] = meshgrid(linspace(-0.5,0.5,5),linspace(10,90,9));
+[beta,alpha] = meshgrid(linspace(0,180,5),linspace(10,90,9));
+Num = numel(alpha);
+psfobj.Xpos = zeros(Num,1);% pixel
+psfobj.Ypos = zeros(Num,1);% pixel
+psfobj.Zpos = zpos(:);% micron
+psfobj.Alphas = alpha(:);
+psfobj.Betas = beta(:);% azimuthal angle
+bin = 2;
+psfobj.genPSF(bin);
+
+%% show PSF images 
+xN=size(alpha,1);
+yN=size(alpha,2);
+h=figure;
+h.Position=[200,300,100*xN,105*yN];
+for n=1:Num
+    if (n<=xN*yN)
+        ha=axes;
+        ii=mod(n,xN);
+        jj=floor(n/xN)+1;
+        if ii==0
+            ii=xN;
+            jj=n/xN;
+        end
+        psfi = psfobj.PSFs(:,:,n);
+        ha.Position=[(ii-1)/xN,(yN-jj)/yN,1/xN,1/yN];
+        image(psfi,'cdatamapping','scale');axis off;axis equal;
+        text(2,3, ['\alpha=',num2str(psfobj.Alphas(n),3),'^o',', \beta=',num2str(psfobj.Betas(n),3),'^o'],'color',[1,1,1],'fontsize',12);
+        text(2,psfobj.Boxsize-3, ['z=',num2str(psfobj.Zpos(n),3),'\mum'],'color',[1,1,1],'fontsize',12);
+    end
+end
+colormap(jet);
+h.InvertHardcopy = 'off';
+h.Position=[200,300,105*xN,105*yN];
+
+%% CRLB, this might take several minutes
+photon = 4000;
+bg = 5;
+crobj = CalCRLB_dipole();
+crobj.Bin = 2;
+crobj.Pixelsize = psfobj.Pixelsize;%micron
+crobj.Xpos = psfobj.Xpos;
+crobj.Ypos = psfobj.Ypos;
+crobj.Zpos = psfobj.Zpos;
+crobj.Alphas = psfobj.Alphas;
+crobj.Betas = psfobj.Betas;
+crobj.Photon = photon.*ones(Num,1);
+crobj.Bg = zeros(Num,1)+bg;
+crobj.Boxsize = psfobj.Boxsize;
+crobj.Deltax = 0.1;%pixel
+crobj.Deltaz = 0.01;%micron
+crobj.Deltaa = 1;%degree
+crobj.Deltab = 1;%degree
+ 
+crobj.PSFobj.NV = psfobj.NV;
+crobj.PSFobj.NV1 = psfobj.NV1;
+crobj.PSFobj.NA = psfobj.NA;
+crobj.PSFobj.nImm = psfobj.nImm;
+crobj.PSFobj.nMed = psfobj.nMed;
+crobj.PSFobj.nCov = psfobj.nCov;
+crobj.PSFobj.Lambda = psfobj.Lambda;% um
+crobj.PSFobj.DipoleP = psfobj.DipoleP;% amplitude
+
+crobj.prepInputparam();
+crobj.calcrlb();
+
+%% show CRLB
+h = figure;
+h.Position = [100,50,400*3,300*2];
+
+subplot(231)
+surf(alpha,zpos.*1e3,reshape(crobj.X_STD.*crobj.Pixelsize.*1e3,xN,yN))
+xlabel('polar angle (degree)')
+ylabel('z position (nm)')
+zlabel('\sigma_x (nm)')
+subplot(232)
+surf(alpha,zpos.*1e3,reshape(crobj.Y_STD.*crobj.Pixelsize.*1e3,xN,yN))
+xlabel('polar angle (degree)')
+ylabel('z position (nm)')
+zlabel('\sigma_y (nm)')
+subplot(233)
+surf(alpha,zpos.*1e3,reshape(crobj.Z_STD.*1e3,xN,yN))
+xlabel('polar angle (degree)')
+ylabel('z position (nm)')
+zlabel('\sigma_z (nm)')
+subplot(234)
+surf(alpha,zpos.*1e3,reshape(crobj.Alpha_STD,xN,yN))
+xlabel('polar angle (degree)')
+ylabel('z position (nm)')
+zlabel('\sigma_\alpha (\^o)')
+subplot(235)
+surf(alpha,zpos.*1e3,reshape(crobj.Beta_STD,xN,yN))
+xlabel('polar angle (degree)')
+ylabel('z position (nm)')
+zlabel('\sigma_\beta (\^o)')
+

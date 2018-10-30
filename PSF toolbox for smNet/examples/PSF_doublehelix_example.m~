@@ -1,0 +1,50 @@
+clearvars
+me = userpath;
+basepath = [me,'/PSF toolbox DNN'];
+addpath(basepath);
+
+%%
+PRstruct.NA = 1.49;
+PRstruct.Lambda = 0.69; %micron
+PRstruct.RefractiveIndex = 1.52;
+
+psfobj = PSF_DH(PRstruct);
+Num = 21;
+zpos = linspace(-1,1,Num)';
+psfobj.Xpos = zeros(Num,1);% pixel
+psfobj.Ypos = zeros(Num,1);% pixel
+psfobj.Zpos = zpos;% micron
+psfobj.Boxsize = 32;
+psfobj.Pixelsize = 0.1; % micron
+psfobj.Magnification = 100;
+psfobj.PSFsize = 512;
+psfobj.Zlim = [-1.2,1.2]; %micron, axial range for optimization of the pupil phase
+
+psfobj.precomputeParam();
+% generate high
+psfobj.genPupil();
+psfobj.genPSF();
+psfobj.genfigs();
+
+%%
+crobj = CalCRLB(PRstruct,'DH');
+crobj.Pixelsize = 0.1;%micron
+crobj.Xpos=psfobj.Xpos;
+crobj.Ypos=psfobj.Ypos;
+crobj.Zpos=psfobj.Zpos;
+crobj.Photon=ones(Num,1);
+crobj.Bg=ones(Num,1);
+crobj.Boxsize=psfobj.Boxsize;
+crobj.Deltax=0.1;%pixel
+crobj.Deltaz=0.01;%micron
+ 
+crobj.PSFobj.Magnification = psfobj.Magnification;
+crobj.PSFobj.PSFsize = psfobj.PSFsize;
+crobj.PSFobj.Zlim = psfobj.Zlim;
+ 
+crobj.prepInputparam();
+tic
+crobj.calcrlb();
+toc
+crobj.genfigs();
+

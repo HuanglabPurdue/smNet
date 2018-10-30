@@ -1,0 +1,58 @@
+% This is an example script for using the OptimPR_Ast class
+clearvars
+me = userpath;
+basepath = [me,'/PSF toolbox DNN'];
+addpath(basepath);
+%% select a measured PSF data
+[FileName, FileDir] = fileparts([basepath,'/test data/complexPSF_recorded.mat']);
+F = load(fullfile(FileDir,FileName));
+namei = fieldnames(F);
+sz=size(F.(namei{1}));
+
+%% create object and set input properties of PRPSF class
+% here the settings are for 4pi microscope
+
+oprobj=OptimPR_Ast();
+oprobj.PRobj.CCDoffset=100;
+oprobj.PRobj.Gain=2;
+oprobj.PRobj.PRstruct.NA=1.4;
+oprobj.PRobj.PRstruct.Lambda=0.7;
+oprobj.PRobj.PRstruct.RefractiveIndex=1.51;
+oprobj.PRobj.Pixelsize=0.13;
+oprobj.PRobj.PSFsize=128;
+oprobj.PRobj.SubroiSize=50; % we cut the initial image. Different sizes might give better or worse results.
+oprobj.PRobj.OTFratioSize=70;
+oprobj.PRobj.ZernikeorderN=7;
+oprobj.PRobj.Zstart = -1; %micron
+oprobj.PRobj.Zend = 1; %micron
+oprobj.PRobj.Zstep = 0.1; %micron
+oprobj.PRobj.Zindstart = 1; %index
+oprobj.PRobj.Zindend = sz(4);
+oprobj.PRobj.Zindstep = 4;
+oprobj.PRobj.IterationNum=40;
+oprobj.PRobj.IterationNumK=5;
+oprobj.FitZrange=[-0.8,0.8];
+oprobj.PRobj.PRstruct.SigmaX=2;
+oprobj.PRobj.PRstruct.SigmaY=2;
+oprobj.IterationMonte=50;
+oprobj.PRobj.Enableunwrap=1;
+oprobj.FileDir=FileDir;
+oprobj.FileName=FileName;
+
+%% generate initial PR result
+oprobj.prepdata('EMCCD');
+oprobj.initialPR();
+oprobj.PRobj.genPRfigs('zernike');
+oprobj.PRobj.genPRfigs('pupil');
+oprobj.PRobj.genPRfigs('PSF');
+oprobj.PRobj.calcrlb();
+%% save OptimPR_Ast object
+resdir=fullfile(figfolder,'PR_result\');
+if ~exist(resdir,'dir')
+    mkdir(resdir)
+end
+oprobj.SaveDir=resdir;
+oprobj.SaveName='_PR_result_optimAst1';
+oprobj.saveObj();
+
+

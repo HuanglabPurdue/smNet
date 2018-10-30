@@ -1,0 +1,50 @@
+clearvars
+me = userpath;
+basepath = [me,'/PSF toolbox DNN'];
+addpath(basepath);
+
+%% generate data
+% load the selected PRPSF object
+load([basepath,'/test data/astigmatimPSF_PR_result_optimAst.mat'])
+probj = obj.PRobj;
+% create PSF_pupil object and set input properties of PSF_pupil class
+psfobj = PSF_zernike(probj.PRstruct);
+
+I = 2000;
+bg = 5;
+Num = 21;
+psfobj.Xpos = zeros(Num,1);% pixel
+psfobj.Ypos = zeros(Num,1);% pixel
+psfobj.ZposMed = linspace(-1,1,Num);% micron
+psfobj.Boxsize = 16;
+psfobj.PSFsize = 128;
+psfobj.Pixelsize = 0.113; % micron(nSTORM 0.156, Mike 0.113)
+psfobj.nMed = 1.35;
+psfobj.Zpos = 1;% micron, this is the stage position, the index mismatch aberration depends on this parameter
+
+psfobj.precomputeParam();
+psfobj.genPupil();
+psfobj.genIMMPSF();
+psfobj.scalePSF('IMM');
+normf = sum(sum(psfobj.PRstruct.Pupil.mag.^2,1),2);
+psf = psfobj.ScaledPSFs./normf;
+ 
+%% CRLB
+crobj = CalCRLB(psfobj.PRstruct,'IMM');
+crobj.Pixelsize = pxsz;%micron
+crobj.Xpos = psfobj.Xpos;
+crobj.Ypos = psfobj.Ypos;
+crobj.Zpos = zpos;
+crobj.Photon = I.*ones(Nz,1);
+crobj.Bg = zeros(Nz,1)+5;
+crobj.Boxsize = bxsz;
+crobj.Deltax = 0.1;% pixel
+crobj.Deltaz = 0.01;% micron
+crobj.PSFobj.PSFsize = psfobj.PSFsize;
+crobj.PSFobj.nMed = psfobj.nMed;
+crobj.PSFobj.Zpos = psfobj.Zpos;
+
+crobj.prepInputparam();
+
+crobj.calcrlb();
+crobj.genfigs();
