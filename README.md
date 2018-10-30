@@ -1,11 +1,11 @@
 # smNet (Single Molecule Deep Neural Network)
-This software is distributed as accompanying software for manuscript: **'Analysing complex single molecule emission patterns with deep learning'** by Peiyi Zhang, Sheng, Liu, Abhishek Chaurasia, Donghan Ma, Michael J. Mlodzianoski, Eugenio Culurciello and Fang Huang.
+This software is distributed as accompanying software for manuscript: P. Zhang, S. Liu, A. Chaurasia, D. Ma, M. J. Mlodzianoski, E. Culurciello and F. Huang, "Analyzing complex single molecule emission patterns with deep learning"(2018) **Nature Methods**, Advanced Online Publication, doi: https://doi.org/10.1038/s41592-018-0153-5
 
 ## Files included in this package
 ### Content of smNet software
-**SampleData:**
-* train/data.mat: A small training dataset containing simulated PSF.
-* train/label.mat: Labels of the training dataset (true coordinates)
+**Sample Data:**
+* train/data.mat: A small training dataset containing simulated PSFs.
+* train/label.mat: Labels of the training dataset (ground truth of the parameters)
 * train/CRLB.mat: Calculated CRLB used in training
 * test/testdata.mat: A small test dataset
 * test/testlabel.mat: Underlying true positions to compare with smNet results
@@ -19,7 +19,7 @@ This software is distributed as accompanying software for manuscript: **'Analysi
 * load/loadtestdata.lua: Script for loading test data
 * load/loadweight.lua: Script for loading CRLB for training
 
-**Note:**: smNet can be trained with >1M images. Additional training and validation datasets are available upon request. smNet Source Code in python will be provided later
+**Note:**: smNet can be trained with >1M images. Additional training and validation datasets are available upon request. We are working on a complete version of smNet in python. We will update shortly.
 
 ### Content of PSF toolbox
 **Matlab classes:**
@@ -32,7 +32,7 @@ This software is distributed as accompanying software for manuscript: **'Analysi
 * CalCRLB -- calculation of CRLB for non-dipole PSF model
 * CalCRLB_dipole -- calculation of CRLB for dipole PSF model
 * Zernike_Polynomials -- generation of Zernike polynomials
-* OTFrescale -- OTF rescale the simulated PSFs
+* OTFrescale -- OTF rescaling of the simulated PSFs
 
 **Example codes:**
 * PR_example.m
@@ -74,7 +74,7 @@ numSubregion 410 --mode z --save ‘result directory’ --modelNum 200 --batchSi
 ```
 **Note:**
 1. Result directory is the same for both training and testing
-2. The ‘modelNum’ is the iteration number at the stop criterion from the training step. See **Supplementary Note 4.1** in smNet Manuscript
+2. The ‘modelNum’ is the iteration number at the stop criterion from the training step. See **Supplementary Note 4.1** in smNet Manuscript (https://www.nature.com/articles/s41592-018-0153-5#Sec13)
 3. Increasing batch size (‘batchSize’) during testing increases speed of forward propagation.
 
 ## Instruction on Using PSF toolbox
