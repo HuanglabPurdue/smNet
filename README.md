@@ -68,16 +68,16 @@ This software is distributed as accompanying software for manuscript: P. Zhang, 
 ## Instruction on Using smNet software (Pytorch)
 **The code has been developed and tested on the following system and packages:**\
 Ubuntu16.04LTS, Python3.6.9, Pytorch0.4.0, CUDA10.1, MatlabR2015a
-(Detailed package installation instructions are provided in the following text)
 
 ### 1. Setup
 Copy loss.py and __init__.py from 'setup/' to '.../nn/modules/', which is usually under following directory:
+```
 /home/username/anaconda3/lib/python3.6/site-packages/torch/nn/modules/
-
+```
 ### 2. Training
 Run the following command in a terminal:
 ```
-python main.py --datapath '/SampleData directory/SampleData/xyz/train/' --save 'result directory' --imHeight 32 --imWidth 32
+python main.py --datapath '/SampleData directory/SampleData/train/' --save 'result directory' --imHeight 32 --imWidth 32
 --batchsize 20 --datasize 10000 --mode z --crange 8 --foldernum 1 --weighting 1
 ```
 **Note:**
@@ -92,7 +92,7 @@ definitions of other user adjustable variables.
 ### 3. Testing
 Run the following commands line by line in a terminal:
 ```
-python test.py --datapath '/SampleData directory/SampleData/xyz/test' --save 'result directory'  --checkpoint 100 --mode z
+python test.py --datapath '/SampleData directory/SampleData/test' --save 'result directory'  --checkpoint 100 --mode z
 ```
 **Note:**
 1. Result directory is the same for both training and testing
