@@ -70,7 +70,7 @@ This software is distributed as accompanying software for manuscript: P. Zhang, 
 Ubuntu16.04LTS, Python3.6.9, Pytorch0.4.0, CUDA10.1, MatlabR2015a
 
 ### 1. Setup
-Copy loss.py and __init__.py from 'setup/' to '.../nn/modules/', which is usually under following directory:
+Copy 'loss.py' and '__init__.py' from 'setup/' to '.../nn/modules/', which is usually under following directory:
 ```
 /home/username/anaconda3/lib/python3.6/site-packages/torch/nn/modules/
 ```
