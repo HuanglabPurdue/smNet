@@ -1,8 +1,26 @@
 # smNet (Single Molecule Deep Neural Network)
 This software is distributed as accompanying software for manuscript: P. Zhang, S. Liu, A. Chaurasia, D. Ma, M. J. Mlodzianoski, E. Culurciello and F. Huang, "Analyzing complex single molecule emission patterns with deep learning"(2018) **Nature Methods**, Advanced Online Publication, doi: https://doi.org/10.1038/s41592-018-0153-5
 
+
 ## Files included in this package
-### Content of smNet software
+### Content of smNet software (Pytorch)
+**Sample Data:**
+* train/data.mat: A small training dataset containing simulated PSFs.
+* train/label.mat: Labels of the training dataset (ground truth of the parameters)
+* train/CRLB.mat: Calculated CRLB used in training
+* test/data.mat: A small test dataset
+* test/label.mat: Underlying true position to compare with smNet results
+* test/CRLB.mat: Underlying true position to compare with smNet results
+
+**smNet(Pytorch) Source Code:** coded in Python
+* main.py: Main script for training smNet
+* model.py: Script for smNet architecture definition
+* opts.py: Definitions of user adjustable variables
+* test.py: Script for testing smNet
+* /setup/loss.py: Script that includes CRLB weighted loss function definition
+
+
+### Content of smNet software (torch)
 **Sample Data:**
 * train/data.mat: A small training dataset containing simulated PSFs.
 * train/label.mat: Labels of the training dataset (ground truth of the parameters)
@@ -11,7 +29,7 @@ This software is distributed as accompanying software for manuscript: P. Zhang, 
 * test/testlabel.mat: Underlying true positions to compare with smNet results
 * test/CRLB.mat: CRLB to evaluate precision performance
 
-**smNet Source Code:** coded in Lua (http://www.lua.org/)
+**smNet(torch) Source Code:** coded in Lua (http://www.lua.org/)
 * main.lua: Main script for training smNet
 * opts.lua: Definitions of user adjustable variables
 * test/test.lua: Script for testing smNet
@@ -47,7 +65,40 @@ This software is distributed as accompanying software for manuscript: P. Zhang, 
 * astigmatimPSF_PR_result_optimAst.mat
 * complexPSF_samplepsf.mat
 
-## Instruction on Using smNet software
+## Instruction on Using smNet software (Pytorch)
+**The code has been developed and tested on the following system and packages:**\
+Ubuntu16.04LTS, Python3.6.9, Pytorch0.4.0, CUDA10.1, MatlabR2015a
+(Detailed package installation instructions are provided in the following text)
+
+### 1. Setup
+Copy loss.py and __init__.py from 'setup/' to '.../nn/modules/', which is usually under following directory:
+/home/username/anaconda3/lib/python3.6/site-packages/torch/nn/modules/
+
+### 2. Training
+Run the following command in a terminal:
+```
+python main.py --datapath '/SampleData directory/SampleData/xyz/train/' --save 'result directory' --imHeight 32 --imWidth 32
+--batchsize 20 --datasize 10000 --mode z --crange 8 --foldernum 1 --weighting 1
+```
+**Note:**
+1. Each iteration will save a model named by the iteration number.
+2. The user could open errorplot.png from the result directory to observe the evolution of training
+and validation errors.
+3. imHeight, imWidth, datasize, mode and save are user adjustable variables. Mode here includes xy, z, aberration, alpha and beta. See opts.py for the
+definitions of other user adjustable variables.
+4. The user adjustable variables for training will be saved in /result directory/opt.txt
+5. The training and validation errors for each iteration will be saved in /result directory/error.log (The 1st column is training error and the 2nd column is validation error)
+
+### 3. Testing
+Run the following commands line by line in a terminal:
+```
+python test.py --datapath '/SampleData directory/SampleData/xyz/test' --save 'result directory'  --checkpoint 100 --mode z
+```
+**Note:**
+1. Result directory is the same for both training and testing
+2. The ‘checkpoint’ is the iteration number at the stop criterion from the training step. See **Supplementary Note 4.1** in smNet Manuscript (https://www.nature.com/articles/s41592-018-0153-5#Sec13)
+
+## Instruction on Using smNet software (torch)
 **The code has been developed and tested on the following system and packages:**\
 Ubuntu16.04, Torch7, CUDA8.0, cuDNN-8.0, NCCL1, MatlabR2015a, mattorch1.0-0\
 (Detailed package installation instructions are provided in the following text)
